@@ -11,7 +11,9 @@
 <meta property="og:image" content="media/hero-poster.jpg">
 <meta name="theme-color" content="#E9EEF3">
 <link rel="icon" href="assets/ifibre-icon.png">
-<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500&display=swap">
 <link rel="preload" as="image" href="media/hero-poster.jpg">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Organization","name":"iFibre Telecommunications Limited","alternateName":["iFibre","ITL"],"url":"https://www.ifibrex.com","foundingDate":"2018","address":{"@type":"PostalAddress","addressLocality":"Ikoyi, Lagos","addressCountry":"NG"}}
@@ -19,8 +21,8 @@
 <style>
   :root {
     --navy: #071A3D; --cyan: #00C8FF; --bg: #E9EEF3; --muted: #5B6578;
-    --display: "Clash Display", "Helvetica Neue", Arial, sans-serif;
-    --text: "Satoshi", "Helvetica Neue", Arial, sans-serif;
+    --display: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+    --text: "Inter", "Helvetica Neue", Arial, sans-serif;
     --pad: clamp(22px, 5.6vw, 110px);
   }
   * { box-sizing: border-box; margin: 0; }
@@ -42,11 +44,11 @@
   .page a { pointer-events: auto; }
   .logo img { height: clamp(44px, 5.2vw, 70px); width: auto; display: block; }
   main { flex: 1; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; max-width: 45vw; padding: 4vh 0; }
-  h1 { font-family: var(--display); font-weight: 500; font-size: clamp(38px, 4.3vw, 86px); line-height: 1; letter-spacing: -0.035em; }
+  h1 { font-family: var(--display); font-weight: 700; font-size: clamp(34px, 3.9vw, 78px); line-height: 1.06; letter-spacing: -0.015em; }
   h1 .accent { color: #0098D4; }
   h1 .l { display: block; overflow: hidden; padding-bottom: .06em; }
   h1 .l > span { display: block; }
-  .soon { margin-bottom: clamp(18px, 3.4vh, 38px); display: inline-flex; align-items: center; gap: 16px; font-family: var(--display); font-weight: 500; font-size: clamp(26px, 2.4vw, 44px); letter-spacing: -0.01em; }
+  .soon { margin-bottom: clamp(18px, 3.4vh, 38px); display: inline-flex; align-items: center; gap: 16px; font-family: var(--display); font-weight: 600; font-size: clamp(26px, 2.4vw, 44px); letter-spacing: -0.01em; }
   .soon .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--cyan); animation: ping 4s infinite; }
   @keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(0,200,255,.6); } 60%,100% { box-shadow: 0 0 0 14px rgba(0,200,255,0); } }
   .talk { display: none; margin-top: 22px; font: 500 15px/1.4 var(--text); letter-spacing: .02em; color: var(--navy); }
