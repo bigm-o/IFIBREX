@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>iFibre Telecommunications Limited — Coming Soon</title>
+<meta name="description" content="iFibre Telecommunications Limited is building the infrastructure that connects Africa. Our new website is coming soon.">
+<meta property="og:title" content="iFibre Telecommunications Limited">
+<meta property="og:description" content="Building the infrastructure that connects Africa. Coming soon.">
+<meta property="og:url" content="https://www.ifibrex.com">
+<meta property="og:image" content="media/hero-poster.jpg">
+<meta name="theme-color" content="#E9EEF3">
+<link rel="icon" href="assets/ifibre-icon.png">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="preload" as="image" href="media/hero-poster.jpg">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"iFibre Telecommunications Limited","alternateName":["iFibre","ITL"],"url":"https://www.ifibrex.com","foundingDate":"2018","address":{"@type":"PostalAddress","addressLocality":"Ikoyi, Lagos","addressCountry":"NG"}}
+</script>
+<style>
+  :root {
+    --navy: #071A3D; --cyan: #00C8FF; --bg: #E9EEF3; --muted: #5B6578;
+    --display: "Clash Display", "Helvetica Neue", Arial, sans-serif;
+    --text: "Satoshi", "Helvetica Neue", Arial, sans-serif;
+    --pad: clamp(22px, 5.6vw, 110px);
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { height: 100%; }
+  body { background: var(--bg); color: var(--navy); font-family: var(--text); -webkit-font-smoothing: antialiased; overflow: hidden; }
+
+  /* The Blender render: a seamless 4-second loop of light flowing through the glass cables. */
+  .stage { position: fixed; inset: -2%; z-index: 0; transition: transform 1.4s cubic-bezier(.16,1,.3,1); will-change: transform; }
+  .stage video, .stage img, .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 70% 50%; display: block; }
+  .stage canvas { cursor: default; }
+  .stage canvas.on-map { cursor: pointer; }
+
+  .page { position: relative; z-index: 1; height: 100svh; display: flex; flex-direction: column; padding: clamp(28px, 6vh, 64px) var(--pad); pointer-events: none; }
+  .page a { pointer-events: auto; }
+  .logo img { height: clamp(44px, 5.2vw, 70px); width: auto; display: block; }
+  main { flex: 1; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; max-width: 45vw; padding: 4vh 0; }
+  h1 { font-family: var(--display); font-weight: 500; font-size: clamp(38px, 4.3vw, 86px); line-height: 1; letter-spacing: -0.035em; }
+  h1 .accent { color: #0098D4; }
+  h1 .l { display: block; overflow: hidden; padding-bottom: .06em; }
+  h1 .l > span { display: block; }
+  .soon { margin-bottom: clamp(18px, 3.4vh, 38px); display: inline-flex; align-items: center; gap: 16px; font-family: var(--display); font-weight: 500; font-size: clamp(26px, 2.4vw, 44px); letter-spacing: -0.01em; }
+  .soon .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--cyan); animation: ping 4s infinite; }
+  @keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(0,200,255,.6); } 60%,100% { box-shadow: 0 0 0 14px rgba(0,200,255,0); } }
+  .talk { display: none; margin-top: 22px; font: 500 15px/1.4 var(--text); letter-spacing: .02em; color: var(--navy); }
+  footer { font-weight: 500; font-size: clamp(13px, 1vw, 17px); letter-spacing: .14em; text-transform: uppercase; }
+  footer a { color: inherit; text-decoration: none; }
+  .hint { position: fixed; z-index: 1; right: var(--pad); bottom: clamp(28px, 6vh, 64px); font: 500 11px/1.7 var(--text); letter-spacing: .18em; text-transform: uppercase; color: var(--muted); pointer-events: none; }
+
+  /* entrance */
+  .js h1 .l > span { transform: translateY(108%); }
+  .js .fade { opacity: 0; transform: translateY(12px); }
+  .ready h1 .l > span { transform: none; transition: transform 1.2s cubic-bezier(.16,1,.3,1); }
+  .ready h1 .l:nth-child(2) > span { transition-delay: .08s; }
+  .ready h1 .l:nth-child(3) > span { transition-delay: .16s; }
+  .ready h1 .l:nth-child(4) > span { transition-delay: .24s; }
+  .ready .fade { opacity: 1; transform: none; transition: opacity 1s ease .5s, transform 1s cubic-bezier(.16,1,.3,1) .5s; }
+
+  /* desktop: centre the headline block on the full page height, not the space left between logo and footer */
+  @media (min-width: 861px) {
+    main { position: absolute; left: var(--pad); top: 50%; transform: translateY(-50%); padding: 0; }
+    footer { margin-top: auto; }
+  }
+  @media (max-width: 860px) {
+    .stage { inset: 10svh -4% auto -4%; height: 60svh; }
+    .stage video, .stage img, .stage canvas { object-position: 74% 42%; }
+    .stage { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 14%, #000 70%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 14%, #000 70%, transparent 100%); }
+    main { max-width: none; justify-content: flex-end; }
+    .hint { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .js h1 .l > span, .js .fade { transform: none; opacity: 1; }
+    .soon .dot { animation: none; }
+    .stage { transition: none; }
+  }
+</style>
+</head>
+<body>
+<div class="stage" id="stage" aria-hidden="true">
+  <img src="media/hero-poster.jpg" alt="">
+  <video id="hero" muted loop playsinline autoplay preload="auto" poster="media/hero-poster.jpg">
+    <source src="media/hero-loop.webm" type="video/webm">
+    <source src="media/hero-loop.mp4" type="video/mp4">
+  </video>
+  <canvas id="fx"></canvas>
+</div>
+
+<div class="page">
+  <a class="logo fade" href="index.html" aria-label="iFibre Telecommunications Limited"><img src="assets/ifibre-logo.png" alt="iFibre Telecommunications Limited" width="900" height="272"></a>
+  <main>
+    <p class="soon fade"><span class="dot" aria-hidden="true"></span>Coming soon</p>
+    <h1>
+      <span class="l"><span>Building the</span></span>
+      <span class="l"><span>infrastructure</span></span>
+      <span class="l"><span>that connects</span></span>
+      <span class="l"><span class="accent">Africa</span></span>
+    </h1>
+    <a class="talk" id="talk" href="#"></a>
+  </main>
+  <footer class="fade"><a href="https://www.ifibrex.com">www.ifibrex.com</a></footer>
+</div>
+<div class="hint fade">Tap the map to send data</div>
+
+<script src="data/overlay.js"></script>
+<script>
+  // Contact line stays hidden until the client confirms an address.
+  const EMAIL = "";
+  if (EMAIL) { const a = document.getElementById("talk"); a.href = "mailto:" + EMAIL; a.textContent = EMAIL; a.style.display = "inline-block"; }
+  document.documentElement.classList.add("js");
+  requestAnimationFrame(() => requestAnimationFrame(() => document.documentElement.classList.add("ready")));
+
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const video = document.getElementById("hero");
+  if (still) { video.removeAttribute("autoplay"); video.pause(); video.remove(); }
+  else video.play().catch(() => {}); // autoplay refused: the poster still shows the full scene
+
+  // ---- interactive layer: extra data pulses drawn over the render, along the same cable paths ----
+  const stage = document.getElementById("stage"), cv = document.getElementById("fx"), ctx = cv.getContext("2d");
+  const SRC_W = 1920, SRC_H = 1080; // render size; overlay.json is 0..1 of this frame
+  let data = null, view = { s: 1, x: 0, y: 0 }, dpr = 1;
+  const pulses = [], rings = [];
+  const COLORS = { c: [0, 200, 255], g: [0, 214, 140] };
+
+  function layout() {
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    const W = cv.clientWidth, H = cv.clientHeight;
+    cv.width = W * dpr; cv.height = H * dpr;
+    const s = Math.max(W / SRC_W, H / SRC_H);                 // object-fit: cover
+    const pos = getComputedStyle(cv).objectPosition.split(" ").map(parseFloat);
+    view = { s, x: (W - SRC_W * s) * pos[0] / 100, y: (H - SRC_H * s) * pos[1] / 100 };
+  }
+  const toScreen = ([u, v]) => [view.x + u * SRC_W * view.s, view.y + v * SRC_H * view.s];
+
+  function prep(json) {
+    const paths = Object.entries(json.paths).map(([name, pts]) => {
+      if (name.startsWith("in_")) pts = pts.slice().reverse();        // every path runs outward from the hub
+      let len = 0; const cum = [0];
+      for (let i = 1; i < pts.length; i++) { len += Math.hypot(pts[i][0] - pts[i - 1][0], (pts[i][1] - pts[i - 1][1]) / 1.7778); cum.push(len); }
+      const green = /^(ne|w3|e1|loop_g|se)/.test(name) || /_1$/.test(name);
+      return { name, pts, cum, len, col: green ? COLORS.g : COLORS.c };
+    });
+    return { hub: json.hub, paths };
+  }
+  function at(p, t) { // point at fraction t along a path
+    const d = t * p.len; let i = 1;
+    while (i < p.cum.length - 1 && p.cum[i] < d) i++;
+    const k = (d - p.cum[i - 1]) / Math.max(p.cum[i] - p.cum[i - 1], 1e-6);
+    const a = p.pts[i - 1], b = p.pts[i];
+    return [a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k];
+  }
+  function send(path, delay = 0, power = 1) {
+    pulses.push({ path, t: -delay, speed: 0.55 + Math.random() * 0.25, power });
+  }
+  function burst() {
+    data.paths.forEach((p, i) => send(p, (i % 5) * 0.05, 1.15));
+    rings.push({ r: 0, a: 1 });
+  }
+  function nearest(mx, my) {
+    let best = null, bd = 1e9;
+    for (const p of data.paths) for (let i = 0; i < p.pts.length; i += 3) {
+      const [x, y] = toScreen(p.pts[i]); const d = Math.hypot(x - mx, y - my);
+      if (d < bd) { bd = d; best = p; }
+    }
+    return { path: best, dist: bd };
+  }
+
+  function glow(x, y, r, [R, G, B], a) {
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+    g.addColorStop(0, `rgba(255,255,255,${a})`);
+    g.addColorStop(0.18, `rgba(${R},${G},${B},${a * 0.9})`);
+    g.addColorStop(1, `rgba(${R},${G},${B},0)`);
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+  }
+
+  let last = performance.now();
+  function frame(now) {
+    const dt = Math.min((now - last) / 1000, 0.05); last = now;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    const scale = view.s * SRC_W / 1920;
+    for (let i = pulses.length - 1; i >= 0; i--) {
+      const q = pulses[i]; q.t += dt * q.speed * (0.9 / Math.max(q.path.len, 0.15));
+      if (q.t > 1) { pulses.splice(i, 1); continue; }
+      if (q.t < 0) continue;
+      const fade = Math.min(1, (1 - q.t) * 4) * q.power;
+      for (let k = 0; k < 6; k++) {                                // short comet tail
+        const tt = q.t - k * 0.012; if (tt < 0) break;
+        const [x, y] = toScreen(at(q.path, tt));
+        glow(x, y, (11 - k * 1.3) * scale, q.path.col, fade * (1 - k / 6) * 0.85);
+      }
+    }
+    if (data) {
+      const [hx, hy] = toScreen(data.hub);
+      for (let i = rings.length - 1; i >= 0; i--) {
+        const r = rings[i]; r.r += dt * 260 * scale; r.a -= dt * 0.9;
+        if (r.a <= 0) { rings.splice(i, 1); continue; }
+        ctx.strokeStyle = `rgba(0,200,255,${r.a * 0.6})`; ctx.lineWidth = 2 * scale;
+        ctx.beginPath(); ctx.arc(hx, hy, r.r, 0, Math.PI * 2); ctx.stroke();
+        glow(hx, hy, 60 * scale * r.a, [120, 230, 255], r.a * 0.7);
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  Promise.resolve(window.OVERLAY).then(json => { // a script, not fetch(), so it also works when the file is opened directly
+    data = prep(json); layout();
+    addEventListener("resize", layout);
+    if (still) return;
+    requestAnimationFrame(frame);
+
+    // a little idle traffic on top of the rendered loop
+    setInterval(() => { if (!document.hidden && pulses.length < 30) send(data.paths[Math.random() * data.paths.length | 0], 0, 0.7); }, 700);
+
+    let lastHover = 0;
+    addEventListener("pointermove", e => {
+      // slow parallax: the scene leans toward the pointer
+      const nx = e.clientX / innerWidth - 0.5, ny = e.clientY / innerHeight - 0.5;
+      stage.style.transform = `translate(${-nx * 14}px, ${-ny * 10}px) scale(1.012)`;
+      const n = nearest(e.clientX, e.clientY);
+      cv.classList.toggle("on-map", n.dist < 60);
+      if (n.dist < 40 && performance.now() - lastHover > 260) { send(n.path, 0, 1); lastHover = performance.now(); }
+    });
+    addEventListener("pointerdown", e => {
+      if (e.target.closest("a")) return;
+      const n = nearest(e.clientX, e.clientY);
+      if (n.dist < 120 || innerWidth < 860) burst();
+    });
+  });
+</script>
+</body>
+</html>
