@@ -208,10 +208,11 @@
     v.innerHTML = `<source src="media/fallback-${n}.webm" type="video/webm"><source src="media/fallback-${n}.mp4" type="video/mp4">`;
     v.load(); v.play().then(() => v.classList.add("on"), () => v.remove());   // refused (e.g. battery saver): keep the still
   };
-  setTimeout(() => { if (!document.documentElement.classList.contains("live3d")) __fallback(); }, 2500);
+  // phones only: give up on a slow live scene after a moment. Desktops wait for it, so the cables always animate in.
+  if (matchMedia("(pointer: coarse)").matches) setTimeout(() => { if (!document.documentElement.classList.contains("live3d")) __fallback(); }, 2500);
   // ?debug: show why the live scene did or didn't start (errors, WebGL2, browser)
   window.__errs = [];
-  addEventListener("error", (e) => __errs.push(e.message ? `${e.message} @${(e.filename || "").split("/").pop()}:${e.lineno}` : `load error: ${e.target && (e.target.src || e.target.href || e.target.tagName + " (module import)")}`), true);
+  addEventListener("error", (e) => (e.target && e.target.tagName === "SCRIPT" && __fallback(), __errs.push(e.message ? `${e.message} @${(e.filename || "").split("/").pop()}:${e.lineno}` : `load error: ${e.target && (e.target.src || e.target.href || e.target.tagName + " (module import)")}`)), true);
   addEventListener("unhandledrejection", (e) => __errs.push(`promise: ${(e.reason && e.reason.message) || e.reason}`));
   if (/[?&]debug/.test(location.search)) setTimeout(() => {
     const pre = document.createElement("pre"), gl2 = !!document.createElement("canvas").getContext("webgl2");
