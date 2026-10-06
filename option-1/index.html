@@ -47,7 +47,7 @@
   #scene { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 1; display: block; transition: opacity .6s; }
   /* a still of the scene, shown if the live 3D can't start (no WebGL2, blocked scripts, very slow network) */
   .fallback img { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; opacity: 0; transition: opacity .8s; pointer-events: none; }
-  .no3d .fallback img { opacity: 1; }
+  .show-still .fallback img { opacity: 1; }
   /* the recorded scene, played over the still when it can autoplay */
   .fallback-video { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; opacity: 0; transition: opacity .8s; pointer-events: none; }
   .fallback-video.on { opacity: 1; }
@@ -144,7 +144,8 @@
   <source media="(max-aspect-ratio: 19/20)" srcset="assets/scene-tall.jpg">
   <img src="assets/scene-wide.jpg" alt="" loading="lazy">
 </picture>
-<video class="fallback-video" muted loop playsinline preload="none" aria-hidden="true"></video>
+<video class="fallback-video" id="fb-intro" muted playsinline preload="none" aria-hidden="true"></video>
+<video class="fallback-video" id="fb-loop" muted loop playsinline preload="none" aria-hidden="true"></video>
 <div class="scrim" aria-hidden="true"></div>
 
 <div class="page">
@@ -199,17 +200,24 @@
 
 <script>
   // if the 3D scene can't start, show a still of it and, where autoplay is allowed, a recorded loop over it
+  // Phones and tablets get the recorded scene (load-up, then a loop); desktops run it live and use the recording only if that fails.
   window.__fallback = () => {
-    const h = document.documentElement, v = document.querySelector(".fallback-video");
+    const h = document.documentElement, a = document.getElementById("fb-intro"), b = document.getElementById("fb-loop");
     if (h.classList.contains("live3d") || h.classList.contains("no3d")) return;
     h.classList.add("no3d");
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return v.remove();
+    const still = () => { a.remove(); b.remove(); h.classList.add("show-still"); };   // no autoplay (e.g. battery saver): the still
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return still();
     const n = innerWidth / innerHeight < 0.95 ? "tall" : "wide";
-    v.innerHTML = `<source src="media/fallback-${n}.webm" type="video/webm"><source src="media/fallback-${n}.mp4" type="video/mp4">`;
-    v.load(); v.play().then(() => v.classList.add("on"), () => v.remove());   // refused (e.g. battery saver): keep the still
+    const use = (v, name) => { v.innerHTML = `<source src="media/${name}.webm" type="video/webm"><source src="media/${name}.mp4" type="video/mp4">`; v.load(); };
+    use(a, `fallback-${n}-intro`); use(b, `fallback-${n}`);
+    // the loop starts on the frame after the intro's last one; keep the intro up until the loop is actually playing
+    const toLoop = () => { if (b.isConnected) b.play().then(() => { b.classList.add("on"); a.remove(); }, still); };
+    let started = false;
+    a.addEventListener("playing", () => { started = true; a.classList.add("on"); }, { once: true });
+    a.addEventListener("ended", toLoop);
+    a.play().catch(still);
+    setTimeout(() => { if (!started && a.isConnected) { a.remove(); h.classList.add("show-still"); toLoop(); } }, 3000);   // slow network: skip the load-up
   };
-  // phones only: give up on a slow live scene after a moment. Desktops wait for it, so the cables always animate in.
-  if (matchMedia("(pointer: coarse)").matches) setTimeout(() => { if (!document.documentElement.classList.contains("live3d")) __fallback(); }, 2500);
   // ?debug: show why the live scene did or didn't start (errors, WebGL2, browser)
   window.__errs = [];
   addEventListener("error", (e) => (e.target && e.target.tagName === "SCRIPT" && __fallback(), __errs.push(e.message ? `${e.message} @${(e.filename || "").split("/").pop()}:${e.lineno}` : `load error: ${e.target && (e.target.src || e.target.href || e.target.tagName + " (module import)")}`)), true);
@@ -222,8 +230,7 @@
     document.body.append(pre);
   }, 4000);
 </script>
-<script src="assets/junction_block.js"></script>
-<script type="module">
+<script type="text/x-scene" id="scene-src">
 // jsDelivr +esm bundles resolve "three" themselves, so no import map is needed (older iOS Safari has none)
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.170.0/+esm";
 import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/loaders/GLTFLoader.js/+esm";
@@ -344,7 +351,7 @@ loader.parse(glb, "", (g) => {
   });
   node.add(block);
   document.documentElement.classList.add("live3d"); document.documentElement.classList.remove("no3d");
-  document.querySelector(".fallback-video")?.remove();
+  document.querySelectorAll(".fallback-video").forEach((v) => v.remove());
   intro.start = performance.now();
   if (still) render();
 }, () => __fallback());
@@ -437,6 +444,15 @@ else {
   function loop(now) { if (!running) return; render(now); requestAnimationFrame(loop); }
   requestAnimationFrame(loop);
 }
+</script>
+<script>
+  if (matchMedia("(pointer: coarse)").matches) __fallback();
+  else {
+    const glb = document.createElement("script");
+    glb.src = "assets/junction_block.js";                       // the model as base64, so it also loads from disk
+    glb.onload = () => { const m = document.createElement("script"); m.type = "module"; m.textContent = document.getElementById("scene-src").textContent; document.body.append(m); };
+    document.body.append(glb);
+  }
 </script>
 </body>
 </html>
