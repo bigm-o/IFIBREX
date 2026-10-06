@@ -190,6 +190,7 @@
   "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
 } }
 </script>
+<script src="assets/junction_block.js"></script>
 <script type="module">
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
@@ -300,7 +301,8 @@ scene.add(packetCore, packetHalo);
 // ---- load the Blender block
 const loader = new GLTFLoader(); loader.setMeshoptDecoder(MeshoptDecoder);
 let block = null;
-loader.load("assets/junction_block.glb", (g) => {
+const glb = Uint8Array.from(atob(window.JUNCTION_GLB), (ch) => ch.charCodeAt(0)).buffer;
+loader.parse(glb, "", (g) => {
   block = g.scene;
   block.traverse((o) => {
     if (!o.isMesh) return;
@@ -331,7 +333,7 @@ function layout() {
     rig.scale.setScalar(Math.min(1.25, halfW * 0.34));
     fan.position.set(halfW * 0.5, -halfH * 0.08, 1); fan.scale.setScalar(0.6);
   }
-  if (still) render();
+  if (still) requestAnimationFrame(() => render()); // deferred: render() and its state are declared further down
 }
 node.rotation.set(0.42, -0.62, 0.16);
 addEventListener("resize", layout); layout();
