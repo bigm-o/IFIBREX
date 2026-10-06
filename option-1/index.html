@@ -44,7 +44,11 @@
     content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
     background: radial-gradient(ellipse 60% 70% at 68% 45%, #F7F9FB 0%, rgba(247,249,251,0) 70%);
   }
-  #scene { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 1; display: block; }
+  #scene { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 1; display: block; transition: opacity .6s; }
+  /* a still of the scene, shown if the live 3D can't start (no WebGL2, blocked scripts, very slow network) */
+  .fallback img { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; opacity: 0; transition: opacity .8s; pointer-events: none; }
+  .no3d .fallback img { opacity: 1; }
+  .no3d #scene { opacity: 0; }
   /* the copy sits on clean light; cables emerge from behind it */
   .scrim { position: fixed; inset: 0; z-index: 1; pointer-events: none;
     background: linear-gradient(90deg, var(--bg) 0%, rgba(237,240,244,.94) 30%, rgba(237,240,244,.55) 44%, rgba(237,240,244,0) 60%); }
@@ -132,6 +136,10 @@
 </head>
 <body>
 <canvas id="scene" aria-hidden="true"></canvas>
+<picture class="fallback" aria-hidden="true">
+  <source media="(max-aspect-ratio: 19/20)" srcset="assets/scene-tall.jpg">
+  <img src="assets/scene-wide.jpg" alt="" loading="lazy">
+</picture>
 <div class="scrim" aria-hidden="true"></div>
 
 <div class="page">
@@ -184,6 +192,10 @@
   requestAnimationFrame(() => requestAnimationFrame(() => document.documentElement.classList.add("ready")));
 </script>
 
+<script>
+  // if the 3D scene hasn't started shortly after load, show the still instead
+  setTimeout(() => { if (!document.documentElement.classList.contains("live3d")) document.documentElement.classList.add("no3d"); }, 2500);
+</script>
 <script type="importmap">
 { "imports": {
   "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
@@ -203,7 +215,7 @@ const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
 let renderer;
 try {
   renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: "high-performance" });
-} catch (e) { canvas.remove(); throw e; }   // no WebGL: the page still reads fine without the scene
+} catch (e) { document.documentElement.classList.add("no3d"); canvas.remove(); throw e; }   // no WebGL2: show the still
 renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.05;
@@ -310,9 +322,10 @@ loader.parse(glb, "", (g) => {
     if (o.name.startsWith("Block_T") || o.name.startsWith("Block_B")) { o.material.envMapIntensity = 1.2; }
   });
   node.add(block);
+  document.documentElement.classList.add("live3d"); document.documentElement.classList.remove("no3d");
   intro.start = performance.now();
   if (still) render();
-});
+}, () => document.documentElement.classList.add("no3d"));
 
 // ---- layout: block right of the copy on wide screens, above it on phones
 const intro = { start: performance.now() };

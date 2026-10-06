@@ -34,6 +34,9 @@
   .stage video, .stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 100% 50%; display: block; }
   #loop { opacity: 0; }
   #loop.on { opacity: 1; }
+  /* never show a native play button: if a video can't autoplay, the still image underneath stays */
+  video { pointer-events: none; }
+  video::-webkit-media-controls, video::-webkit-media-controls-start-playback-button, video::-webkit-media-controls-overlay-play-button { display: none !important; -webkit-appearance: none; }
 
   .page { position: relative; z-index: 1; height: 100svh; display: flex; flex-direction: column; padding: clamp(28px, 8vh, 96px) var(--pad) clamp(22px, 4vh, 44px); pointer-events: none; }
   .page a { pointer-events: auto; }
@@ -119,13 +122,16 @@
   requestAnimationFrame(() => requestAnimationFrame(() => document.documentElement.classList.add("ready")));
 
   const intro = document.getElementById("intro"), loop = document.getElementById("loop");
-  const settle = () => { loop.classList.add("on"); intro.remove(); };
-  if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    intro.remove(); loop.remove();            // the still behind them shows the settled scene
-  } else {
-    // the loop starts on the frame right after the intro's last one, so the hand-off is seamless
-    intro.addEventListener("ended", () => { loop.currentTime = 0; loop.play().then(settle, settle); });
-    intro.play().catch(settle);               // autoplay refused: show the settled scene instead
+  const still = () => { intro.remove(); loop.remove(); };    // the image behind them shows the finished scene
+  // the loop starts on the frame right after the intro's last one (and its poster is that frame), so the hand-off is seamless
+  const toLoop = () => { if (!loop.isConnected) return; intro.remove(); loop.classList.add("on"); loop.currentTime = 0; loop.play().catch(still); };
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) still();
+  else {
+    let started = false;
+    intro.addEventListener("playing", () => { started = true; }, { once: true });
+    intro.addEventListener("ended", toLoop);
+    intro.play().catch(still);                // autoplay blocked (e.g. battery saver): show the scene as is
+    setTimeout(() => { if (!started && intro.isConnected) toLoop(); }, 3000);   // slow connection: skip the intro
   }
 </script>
 </body>

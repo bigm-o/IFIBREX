@@ -34,6 +34,9 @@
   .stage canvas.on-map { cursor: pointer; }
   #hero { opacity: 0; }
   #hero.on { opacity: 1; }
+  /* never show a native play button: if a video can't autoplay, the still image underneath stays */
+  video { pointer-events: none; }
+  video::-webkit-media-controls, video::-webkit-media-controls-start-playback-button, video::-webkit-media-controls-overlay-play-button { display: none !important; -webkit-appearance: none; }
 
   .page { position: relative; z-index: 1; height: 100svh; display: flex; flex-direction: column; padding: clamp(28px, 6vh, 64px) var(--pad); pointer-events: none; }
   .page a { pointer-events: auto; }
@@ -123,10 +126,14 @@
   let live = null;   // resolves once the loop is on screen: the pulse overlay waits for the drawn cables
   if (still) { intro.remove(); video.remove(); live = Promise.resolve(); }
   else live = new Promise(go => {
-    const settle = () => { video.classList.add("on"); intro.remove(); go(); };
-    // the loop's first frame follows the intro's last one, so the hand-off is seamless
-    intro.addEventListener("ended", () => { video.currentTime = 0; video.play().then(settle, settle); });
-    intro.play().catch(settle);   // autoplay refused: show the finished scene
+    const still = () => { intro.remove(); video.remove(); go(); };   // the image behind them shows the finished scene
+    // the loop's first frame follows the intro's last one (and its poster is the finished scene), so the hand-off is seamless
+    const toLoop = () => { if (!video.isConnected) return; intro.remove(); video.classList.add("on"); video.currentTime = 0; video.play().then(go, still); };
+    let started = false;
+    intro.addEventListener("playing", () => { started = true; }, { once: true });
+    intro.addEventListener("ended", toLoop);
+    intro.play().catch(still);    // autoplay blocked (e.g. battery saver): show the scene as is
+    setTimeout(() => { if (!started && intro.isConnected) toLoop(); }, 3000);   // slow connection: skip the intro
   });
 
   // ---- interactive layer: extra data pulses drawn over the render, along the same cable paths ----
