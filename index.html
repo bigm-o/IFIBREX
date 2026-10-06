@@ -3,50 +3,259 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>iFibre — Coming Soon Options</title>
-<meta name="robots" content="noindex">
-<link rel="icon" href="option-3/assets/ifibre-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500&display=swap">
+<title>iFibre Telecommunications Limited — Coming Soon</title>
+<meta name="description" content="iFibre Telecommunications Limited is building the infrastructure that connects Africa. Our new website is coming soon.">
+<meta property="og:title" content="iFibre Telecommunications Limited">
+<meta property="og:description" content="Building the infrastructure that connects Africa. Coming soon.">
+<meta property="og:url" content="https://www.ifibrex.com">
+<meta property="og:image" content="https://www.ifibrex.com/media/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://www.ifibrex.com/">
+<meta name="theme-color" content="#E9EEF3">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/montserrat-latin-600-700.woff2" crossorigin>
+<link rel="preload" as="image" href="media/intro-poster.webp" fetchpriority="high">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"iFibre Telecommunications Limited","alternateName":["iFibre","ITL"],"url":"https://www.ifibrex.com","foundingDate":"2018","address":{"@type":"PostalAddress","addressLocality":"Ikoyi, Lagos","addressCountry":"NG"}}
+</script>
 <style>
-  :root { --navy: #0A1838; --ink: #3A4560; --bg: #EEF2F6; --card: #fff; --line: rgba(10, 24, 56, .12); }
+  @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-400-500.woff2") format("woff2"); font-weight: 400 500; font-style: normal; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+  @font-face { font-family: "Montserrat"; src: url("assets/fonts/montserrat-latin-600-700.woff2") format("woff2"); font-weight: 600 700; font-style: normal; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+  :root {
+    --navy: #071A3D; --cyan: #00C8FF; --bg: #E9EEF3; --muted: #5B6578;
+    --display: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+    --text: "Inter", "Helvetica Neue", Arial, sans-serif;
+    --pad: clamp(22px, 5.6vw, 110px);
+  }
   * { box-sizing: border-box; margin: 0; }
-  body { background: var(--bg); color: var(--navy); font-family: "Inter", "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; padding: clamp(28px, 6vw, 80px) clamp(16px, 5vw, 80px); }
-  header { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-bottom: clamp(28px, 4vw, 52px); }
-  header img { height: 52px; width: auto; }
-  h1 { font: 700 clamp(22px, 2.2vw, 32px)/1.2 "Montserrat", sans-serif; }
-  header p { color: var(--ink); width: 100%; max-width: 46em; line-height: 1.5; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: clamp(16px, 2vw, 28px); }
-  a.card { display: block; background: var(--card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; color: inherit; text-decoration: none; transition: transform .25s ease, box-shadow .25s ease; }
-  a.card:hover, a.card:focus-visible { transform: translateY(-3px); box-shadow: 0 14px 34px rgba(10, 24, 56, .12); }
-  a.card:focus-visible { outline: 2px solid #0889BE; outline-offset: 3px; }
-  .card img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: #dde3ea; }
-  .card div { padding: 18px 20px 22px; }
-  .card span { font: 600 12px/1 "Montserrat", sans-serif; letter-spacing: .12em; text-transform: uppercase; color: #0A6E9A; }
-  .card h2 { font: 700 19px/1.3 "Montserrat", sans-serif; margin: 8px 0 6px; }
-  .card p { color: var(--ink); font-size: 15px; line-height: 1.5; }
+  html, body { height: 100%; }
+  body { background: var(--bg); color: var(--navy); font-family: var(--text); -webkit-font-smoothing: antialiased; overflow: hidden; }
+
+  /* The Blender render: a seamless 4-second loop of light flowing through the glass cables. */
+  .stage { position: fixed; inset: -2%; z-index: 0; transition: transform 1.4s cubic-bezier(.16,1,.3,1); will-change: transform; }
+  .stage video, .stage img, .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 70% 50%; display: block; }
+  .stage canvas { cursor: default; }
+  .stage canvas.on-map { cursor: pointer; }
+  #hero { opacity: 0; }
+  #hero.on { opacity: 1; }
+  /* never show a native play button: if a video can't autoplay, the still image underneath stays */
+  video { pointer-events: none; }
+  video::-webkit-media-controls, video::-webkit-media-controls-start-playback-button, video::-webkit-media-controls-overlay-play-button { display: none !important; -webkit-appearance: none; }
+
+  .page { position: relative; z-index: 1; height: 100svh; display: flex; flex-direction: column; padding: clamp(28px, 6vh, 64px) var(--pad); pointer-events: none; }
+  .page a { pointer-events: auto; }
+  .logo img { height: clamp(44px, 5.2vw, 70px); width: auto; display: block; }
+  main { flex: 1; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; max-width: 45vw; padding: 4vh 0; }
+  h1 { font-family: var(--display); font-weight: 700; font-size: clamp(34px, 3.9vw, 78px); line-height: 1.06; letter-spacing: -0.015em; }
+  h1 .accent { color: #0098D4; }
+  h1 .l { display: block; overflow: hidden; padding-bottom: .06em; }
+  h1 .l > span { display: block; }
+  .soon { margin-bottom: clamp(18px, 3.4vh, 38px); display: inline-flex; align-items: center; gap: 16px; font-family: var(--display); font-weight: 600; font-size: clamp(26px, 2.4vw, 44px); letter-spacing: -0.01em; }
+  .soon .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--cyan); animation: ping 4s infinite; }
+  @keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(0,200,255,.6); } 60%,100% { box-shadow: 0 0 0 14px rgba(0,200,255,0); } }
+  .talk { display: none; margin-top: 22px; font: 500 15px/1.4 var(--text); letter-spacing: .02em; color: var(--navy); }
+  footer { font-weight: 500; font-size: clamp(13px, 1vw, 17px); letter-spacing: .14em; text-transform: uppercase; }
+  footer a { color: inherit; text-decoration: none; }
+  .hint { position: fixed; z-index: 1; right: var(--pad); bottom: clamp(28px, 6vh, 64px); font: 500 11px/1.7 var(--text); letter-spacing: .18em; text-transform: uppercase; color: var(--muted); pointer-events: none; }
+
+  /* entrance */
+  /* entrance runs top to bottom: logo, label, headline lines, footer; each drops in from above */
+  .js h1 .l > span { transform: translateY(-108%); }
+  .js .fade { opacity: 0; transform: translateY(-14px); }
+  .ready h1 .l > span { transform: none; transition: transform 1.1s cubic-bezier(.16,1,.3,1) .45s; }
+  .ready h1 .l:nth-child(2) > span { transition-delay: .55s; }
+  .ready h1 .l:nth-child(3) > span { transition-delay: .65s; }
+  .ready h1 .l:nth-child(4) > span { transition-delay: .75s; }
+  .ready .fade { opacity: 1; transform: none; transition: opacity .9s ease var(--d, 0s), transform .9s cubic-bezier(.16,1,.3,1) var(--d, 0s); }
+
+  /* desktop: centre the headline block on the full page height, not the space left between logo and footer */
+  @media (min-width: 861px) {
+    main { position: absolute; left: var(--pad); top: 50%; transform: translateY(-50%); padding: 0; }
+    footer { margin-top: auto; }
+  }
+  @media (max-width: 860px) {
+    .stage { inset: 10svh -4% auto -4%; height: 60svh; }
+    .stage video, .stage img, .stage canvas { object-position: 74% 42%; }
+    .stage { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 14%, #000 70%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 14%, #000 70%, transparent 100%); }
+    main { max-width: none; justify-content: flex-end; }
+    .hint { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .js h1 .l > span, .js .fade { transform: none; opacity: 1; }
+    .soon .dot { animation: none; }
+    .stage { transition: none; }
+  }
 </style>
 </head>
 <body>
-<header>
-  <img src="option-3/assets/ifibre-logo.png" alt="iFibre Telecommunications Limited" width="900" height="272">
-  <h1>Coming soon — design options</h1>
-  <p>Each option is a self-contained page. Open one to view it full screen; to launch, point the domain at that option's folder or move its contents to the site root.</p>
-</header>
-<main class="grid">
-  <a class="card" href="option-1/index.html">
-    <img src="previews/option-1.jpg" alt="Option 1 preview" loading="lazy">
-    <div><span>Option 01</span><h2>Junction block</h2><p>Live 3D fibre junction block rendered in the browser with three.js.</p></div>
-  </a>
-  <a class="card" href="option-2/index.html">
-    <img src="previews/option-2.jpg" alt="Option 2 preview" loading="lazy">
-    <div><span>Option 02</span><h2>Africa network</h2><p>Blender-rendered glass Africa with light looping through the cables; tap the map to send data.</p></div>
-  </a>
-  <a class="card" href="option-3/index.html">
-    <img src="previews/option-3.jpg" alt="Option 3 preview" loading="lazy">
-    <div><span>Option 03</span><h2>Fibre cables</h2><p>Blender-rendered fibre cables snake in from the screen edges, then glow with pulses and data packets.</p></div>
-  </a>
-</main>
+<div class="stage" id="stage" aria-hidden="true">
+  <img src="media/hero-poster.webp" alt="" decoding="async">
+  <video id="intro" muted playsinline preload="auto" poster="media/intro-poster.webp">
+    <source src="media/intro.webm" type="video/webm">
+    <source src="media/intro.mp4" type="video/mp4">
+  </video>
+  <video id="hero" muted loop playsinline preload="auto" poster="media/hero-poster.webp">
+    <source src="media/hero-loop.webm" type="video/webm">
+    <source src="media/hero-loop.mp4" type="video/mp4">
+  </video>
+  <canvas id="fx"></canvas>
+</div>
+
+<div class="page">
+  <a class="logo fade" style="--d:.1s" href="index.html" aria-label="iFibre Telecommunications Limited"><img src="assets/ifibre-logo.png" alt="iFibre Telecommunications Limited" width="640" height="193"></a>
+  <main>
+    <p class="soon fade" style="--d:.28s"><span class="dot" aria-hidden="true"></span>Coming soon</p>
+    <h1>
+      <span class="l"><span>Building the</span></span>
+      <span class="l"><span>infrastructure</span></span>
+      <span class="l"><span>that connects</span></span>
+      <span class="l"><span class="accent">Africa</span></span>
+    </h1>
+    <a class="talk" id="talk" href="#"></a>
+  </main>
+  <footer class="fade" style="--d:1.05s"><a href="https://www.ifibrex.com">www.ifibrex.com</a></footer>
+</div>
+<div class="hint fade" style="--d:1.2s">Tap the map to send data</div>
+
+<script src="data/overlay.js"></script>
+<script>
+  // Contact line stays hidden until the client confirms an address.
+  const EMAIL = "";
+  if (EMAIL) { const a = document.getElementById("talk"); a.href = "mailto:" + EMAIL; a.textContent = EMAIL; a.style.display = "inline-block"; }
+  document.documentElement.classList.add("js");
+  requestAnimationFrame(() => requestAnimationFrame(() => document.documentElement.classList.add("ready")));
+
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const intro = document.getElementById("intro"), video = document.getElementById("hero");
+  let live = null;   // resolves once the loop is on screen: the pulse overlay waits for the drawn cables
+  if (still) { intro.remove(); video.remove(); live = Promise.resolve(); }
+  else live = new Promise(go => {
+    const still = () => { intro.remove(); video.remove(); go(); };   // the image behind them shows the finished scene
+    // the loop's first frame follows the intro's last one (and its poster is the finished scene), so the hand-off is seamless
+    const toLoop = () => { if (!video.isConnected) return; intro.remove(); video.classList.add("on"); video.currentTime = 0; video.play().then(go, still); };
+    let started = false;
+    intro.addEventListener("playing", () => { started = true; }, { once: true });
+    intro.addEventListener("ended", toLoop);
+    intro.play().catch(still);    // autoplay blocked (e.g. battery saver): show the scene as is
+    setTimeout(() => { if (!started && intro.isConnected) toLoop(); }, 3000);   // slow connection: skip the intro
+  });
+
+  // ---- interactive layer: extra data pulses drawn over the render, along the same cable paths ----
+  const stage = document.getElementById("stage"), cv = document.getElementById("fx"), ctx = cv.getContext("2d");
+  const SRC_W = 1920, SRC_H = 1080; // render size; overlay.json is 0..1 of this frame
+  let data = null, view = { s: 1, x: 0, y: 0 }, dpr = 1;
+  const pulses = [], rings = [];
+  const COLORS = { c: [0, 200, 255], g: [0, 214, 140] };
+
+  function layout() {
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    const W = cv.clientWidth, H = cv.clientHeight;
+    cv.width = W * dpr; cv.height = H * dpr;
+    const s = Math.max(W / SRC_W, H / SRC_H);                 // object-fit: cover
+    const pos = getComputedStyle(cv).objectPosition.split(" ").map(parseFloat);
+    view = { s, x: (W - SRC_W * s) * pos[0] / 100, y: (H - SRC_H * s) * pos[1] / 100 };
+  }
+  const toScreen = ([u, v]) => [view.x + u * SRC_W * view.s, view.y + v * SRC_H * view.s];
+
+  function prep(json) {
+    const paths = Object.entries(json.paths).map(([name, pts]) => {
+      if (name.startsWith("in_")) pts = pts.slice().reverse();        // every path runs outward from the hub
+      let len = 0; const cum = [0];
+      for (let i = 1; i < pts.length; i++) { len += Math.hypot(pts[i][0] - pts[i - 1][0], (pts[i][1] - pts[i - 1][1]) / 1.7778); cum.push(len); }
+      const green = /^(ne|w3|e1|loop_g|se)/.test(name) || /_1$/.test(name);
+      return { name, pts, cum, len, col: green ? COLORS.g : COLORS.c };
+    });
+    return { hub: json.hub, paths };
+  }
+  function at(p, t) { // point at fraction t along a path
+    const d = t * p.len; let i = 1;
+    while (i < p.cum.length - 1 && p.cum[i] < d) i++;
+    const k = (d - p.cum[i - 1]) / Math.max(p.cum[i] - p.cum[i - 1], 1e-6);
+    const a = p.pts[i - 1], b = p.pts[i];
+    return [a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k];
+  }
+  function send(path, delay = 0, power = 1) {
+    pulses.push({ path, t: -delay, speed: 0.55 + Math.random() * 0.25, power });
+  }
+  function burst() {
+    data.paths.forEach((p, i) => send(p, (i % 5) * 0.05, 1.15));
+    rings.push({ r: 0, a: 1 });
+  }
+  function nearest(mx, my) {
+    let best = null, bd = 1e9;
+    for (const p of data.paths) for (let i = 0; i < p.pts.length; i += 3) {
+      const [x, y] = toScreen(p.pts[i]); const d = Math.hypot(x - mx, y - my);
+      if (d < bd) { bd = d; best = p; }
+    }
+    return { path: best, dist: bd };
+  }
+
+  function glow(x, y, r, [R, G, B], a) {
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+    g.addColorStop(0, `rgba(255,255,255,${a})`);
+    g.addColorStop(0.18, `rgba(${R},${G},${B},${a * 0.9})`);
+    g.addColorStop(1, `rgba(${R},${G},${B},0)`);
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+  }
+
+  let last = performance.now();
+  function frame(now) {
+    const dt = Math.min((now - last) / 1000, 0.05); last = now;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    const scale = view.s * SRC_W / 1920;
+    for (let i = pulses.length - 1; i >= 0; i--) {
+      const q = pulses[i]; q.t += dt * q.speed * (0.9 / Math.max(q.path.len, 0.15));
+      if (q.t > 1) { pulses.splice(i, 1); continue; }
+      if (q.t < 0) continue;
+      const fade = Math.min(1, (1 - q.t) * 4) * q.power;
+      for (let k = 0; k < 6; k++) {                                // short comet tail
+        const tt = q.t - k * 0.012; if (tt < 0) break;
+        const [x, y] = toScreen(at(q.path, tt));
+        glow(x, y, (11 - k * 1.3) * scale, q.path.col, fade * (1 - k / 6) * 0.85);
+      }
+    }
+    if (data) {
+      const [hx, hy] = toScreen(data.hub);
+      for (let i = rings.length - 1; i >= 0; i--) {
+        const r = rings[i]; r.r += dt * 260 * scale; r.a -= dt * 0.9;
+        if (r.a <= 0) { rings.splice(i, 1); continue; }
+        ctx.strokeStyle = `rgba(0,200,255,${r.a * 0.6})`; ctx.lineWidth = 2 * scale;
+        ctx.beginPath(); ctx.arc(hx, hy, r.r, 0, Math.PI * 2); ctx.stroke();
+        glow(hx, hy, 60 * scale * r.a, [120, 230, 255], r.a * 0.7);
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  Promise.all([window.OVERLAY, live]).then(([json]) => { // a script, not fetch(), so it also works when the file is opened directly
+    data = prep(json); layout();
+    addEventListener("resize", layout);
+    if (still) return;
+    requestAnimationFrame(frame);
+
+    // a little idle traffic on top of the rendered loop
+    setInterval(() => { if (!document.hidden && pulses.length < 30) send(data.paths[Math.random() * data.paths.length | 0], 0, 0.7); }, 700);
+
+    let lastHover = 0;
+    addEventListener("pointermove", e => {
+      // slow parallax: the scene leans toward the pointer
+      const nx = e.clientX / innerWidth - 0.5, ny = e.clientY / innerHeight - 0.5;
+      stage.style.transform = `translate(${-nx * 14}px, ${-ny * 10}px) scale(1.012)`;
+      const n = nearest(e.clientX, e.clientY);
+      cv.classList.toggle("on-map", n.dist < 60);
+      if (n.dist < 40 && performance.now() - lastHover > 260) { send(n.path, 0, 1); lastHover = performance.now(); }
+    });
+    addEventListener("pointerdown", e => {
+      if (e.target.closest("a")) return;
+      const n = nearest(e.clientX, e.clientY);
+      if (n.dist < 120 || innerWidth < 860) burst();
+    });
+  });
+</script>
 </body>
 </html>
