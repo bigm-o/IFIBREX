@@ -48,6 +48,10 @@
   /* a still of the scene, shown if the live 3D can't start (no WebGL2, blocked scripts, very slow network) */
   .fallback img { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; opacity: 0; transition: opacity .8s; pointer-events: none; }
   .no3d .fallback img { opacity: 1; }
+  /* the recorded scene, played over the still when it can autoplay */
+  .fallback-video { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; opacity: 0; transition: opacity .8s; pointer-events: none; }
+  .fallback-video.on { opacity: 1; }
+  .fallback-video::-webkit-media-controls, .fallback-video::-webkit-media-controls-start-playback-button { display: none !important; -webkit-appearance: none; }
   .no3d #scene { opacity: 0; }
   /* the copy sits on clean light; cables emerge from behind it */
   .scrim { position: fixed; inset: 0; z-index: 1; pointer-events: none;
@@ -140,6 +144,7 @@
   <source media="(max-aspect-ratio: 19/20)" srcset="assets/scene-tall.jpg">
   <img src="assets/scene-wide.jpg" alt="" loading="lazy">
 </picture>
+<video class="fallback-video" muted loop playsinline preload="none" aria-hidden="true"></video>
 <div class="scrim" aria-hidden="true"></div>
 
 <div class="page">
@@ -193,21 +198,36 @@
 </script>
 
 <script>
-  // if the 3D scene hasn't started shortly after load, show the still instead
-  setTimeout(() => { if (!document.documentElement.classList.contains("live3d")) document.documentElement.classList.add("no3d"); }, 2500);
-</script>
-<script type="importmap">
-{ "imports": {
-  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
-  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
-} }
+  // if the 3D scene can't start, show a still of it and, where autoplay is allowed, a recorded loop over it
+  window.__fallback = () => {
+    const h = document.documentElement, v = document.querySelector(".fallback-video");
+    if (h.classList.contains("live3d") || h.classList.contains("no3d")) return;
+    h.classList.add("no3d");
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return v.remove();
+    const n = innerWidth / innerHeight < 0.95 ? "tall" : "wide";
+    v.innerHTML = `<source src="media/fallback-${n}.webm" type="video/webm"><source src="media/fallback-${n}.mp4" type="video/mp4">`;
+    v.load(); v.play().then(() => v.classList.add("on"), () => v.remove());   // refused (e.g. battery saver): keep the still
+  };
+  setTimeout(() => { if (!document.documentElement.classList.contains("live3d")) __fallback(); }, 2500);
+  // ?debug: show why the live scene did or didn't start (errors, WebGL2, browser)
+  window.__errs = [];
+  addEventListener("error", (e) => __errs.push(e.message ? `${e.message} @${(e.filename || "").split("/").pop()}:${e.lineno}` : `load error: ${e.target && (e.target.src || e.target.href || e.target.tagName + " (module import)")}`), true);
+  addEventListener("unhandledrejection", (e) => __errs.push(`promise: ${(e.reason && e.reason.message) || e.reason}`));
+  if (/[?&]debug/.test(location.search)) setTimeout(() => {
+    const pre = document.createElement("pre"), gl2 = !!document.createElement("canvas").getContext("webgl2");
+    pre.style.cssText = "position:fixed;left:8px;right:8px;bottom:8px;z-index:9;margin:0;padding:8px;background:#fff;color:#a00;border:1px solid #a00;font:11px/1.4 monospace;white-space:pre-wrap";
+    pre.textContent = [`live3d: ${document.documentElement.classList.contains("live3d")}`, `webgl2: ${gl2}`, `wasm: ${typeof WebAssembly}`,
+      `importmap: ${HTMLScriptElement.supports ? HTMLScriptElement.supports("importmap") : "unknown"}`, navigator.userAgent, ...__errs].join("\n");
+    document.body.append(pre);
+  }, 4000);
 </script>
 <script src="assets/junction_block.js"></script>
 <script type="module">
-import * as THREE from "three";
-import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
-import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
+// jsDelivr +esm bundles resolve "three" themselves, so no import map is needed (older iOS Safari has none)
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.170.0/+esm";
+import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/loaders/GLTFLoader.js/+esm";
+import { RoomEnvironment } from "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/environments/RoomEnvironment.js/+esm";
+import { MeshoptDecoder } from "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/libs/meshopt_decoder.module.js/+esm";
 
 const canvas = document.getElementById("scene");
 const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -215,7 +235,7 @@ const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
 let renderer;
 try {
   renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: "high-performance" });
-} catch (e) { document.documentElement.classList.add("no3d"); canvas.remove(); throw e; }   // no WebGL2: show the still
+} catch (e) { __fallback(); canvas.remove(); throw e; }   // no WebGL2: show the recorded fallback
 renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.05;
@@ -323,9 +343,10 @@ loader.parse(glb, "", (g) => {
   });
   node.add(block);
   document.documentElement.classList.add("live3d"); document.documentElement.classList.remove("no3d");
+  document.querySelector(".fallback-video")?.remove();
   intro.start = performance.now();
   if (still) render();
-}, () => document.documentElement.classList.add("no3d"));
+}, () => __fallback());
 
 // ---- layout: block right of the copy on wide screens, above it on phones
 const intro = { start: performance.now() };
