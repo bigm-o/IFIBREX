@@ -60,7 +60,6 @@
   .talk { display: none; margin-top: 22px; font: 500 15px/1.4 var(--text); letter-spacing: .02em; color: var(--navy); }
   footer { font-weight: 500; font-size: clamp(13px, 1vw, 17px); letter-spacing: .14em; text-transform: uppercase; }
   footer a { color: inherit; text-decoration: none; }
-  .hint { position: fixed; z-index: 1; right: var(--pad); bottom: clamp(28px, 6vh, 64px); font: 500 11px/1.7 var(--text); letter-spacing: .18em; text-transform: uppercase; color: var(--muted); pointer-events: none; }
 
   /* entrance */
   /* entrance runs top to bottom: logo, label, headline lines, footer; each drops in from above */
@@ -82,7 +81,6 @@
     .stage video, .stage img, .stage canvas { object-position: 74% 42%; }
     .stage { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 14%, #000 70%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 14%, #000 70%, transparent 100%); }
     main { max-width: none; justify-content: flex-end; }
-    .hint { display: none; }
   }
   @media (prefers-reduced-motion: reduce) {
     .js h1 .l > span, .js .fade { transform: none; opacity: 1; }
@@ -119,7 +117,6 @@
   </main>
   <footer class="fade" style="--d:1.05s"><a href="https://www.ifibrex.com">www.ifibrex.com</a></footer>
 </div>
-<div class="hint fade" style="--d:1.2s">Tap the map to send data</div>
 
 <script src="data/overlay.js"></script>
 <script>
