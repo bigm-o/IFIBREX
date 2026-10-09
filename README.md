@@ -1,4 +1,4 @@
-# iFibre — coming soon
+# iFibreX — coming soon
 
 Production coming-soon page for **www.ifibrex.com**. Static files only: no build step, no dependencies, no third-party requests.
 
