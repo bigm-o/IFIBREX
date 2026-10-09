@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>iFibre Telecommunications Limited — Coming Soon</title>
-<meta name="description" content="iFibre Telecommunications Limited is building the infrastructure that connects Africa. Our new website is coming soon.">
-<meta property="og:title" content="iFibre Telecommunications Limited">
+<title>iFibreX Telecommunications Limited — Coming Soon</title>
+<meta name="description" content="iFibreX Telecommunications Limited is building the infrastructure that connects Africa. Our new website is coming soon.">
+<meta property="og:title" content="iFibreX Telecommunications Limited">
 <meta property="og:description" content="Building the infrastructure that connects Africa. Coming soon.">
 <meta property="og:url" content="https://www.ifibrex.com">
 <meta property="og:image" content="https://www.ifibrex.com/media/og-image.jpg">
@@ -20,7 +20,7 @@
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/montserrat-latin-600-700.woff2" crossorigin>
 <link rel="preload" as="image" href="media/intro-poster.webp" fetchpriority="high">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Organization","name":"iFibre Telecommunications Limited","alternateName":["iFibre","ITL"],"url":"https://www.ifibrex.com","foundingDate":"2018","address":{"@type":"PostalAddress","addressLocality":"Ikoyi, Lagos","addressCountry":"NG"}}
+{"@context":"https://schema.org","@type":"Organization","name":"iFibreX Telecommunications Limited","alternateName":["iFibreX","ITL"],"url":"https://www.ifibrex.com","foundingDate":"2018","address":{"@type":"PostalAddress","addressLocality":"Ikoyi, Lagos","addressCountry":"NG"}}
 </script>
 <style>
   @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-400-500.woff2") format("woff2"); font-weight: 400 500; font-style: normal; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
@@ -36,7 +36,7 @@
   body { background: var(--bg); color: var(--navy); font-family: var(--text); -webkit-font-smoothing: antialiased; overflow: hidden; }
 
   /* The Blender render: a seamless 4-second loop of light flowing through the glass cables. */
-  .stage { position: fixed; inset: -2%; z-index: 0; transition: transform 1.4s cubic-bezier(.16,1,.3,1); will-change: transform; }
+  .stage { position: fixed; inset: -2%; z-index: 0; }
   .stage video, .stage img, .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 70% 50%; display: block; }
   .stage canvas { cursor: default; }
   .stage canvas.on-map { cursor: pointer; }
@@ -85,7 +85,6 @@
   @media (prefers-reduced-motion: reduce) {
     .js h1 .l > span, .js .fade { transform: none; opacity: 1; }
     .soon .dot { animation: none; }
-    .stage { transition: none; }
   }
 </style>
 </head>
@@ -104,7 +103,7 @@
 </div>
 
 <div class="page">
-  <a class="logo fade" style="--d:.1s" href="index.html" aria-label="iFibre Telecommunications Limited"><img src="assets/ifibre-logo.png" alt="iFibre Telecommunications Limited" width="640" height="193"></a>
+  <a class="logo fade" style="--d:.1s" href="index.html" aria-label="iFibreX Telecommunications Limited"><img src="assets/ifibre-logo.png" alt="iFibreX Telecommunications Limited" width="640" height="193"></a>
   <main>
     <p class="soon fade" style="--d:.28s"><span class="dot" aria-hidden="true"></span>Coming soon</p>
     <h1>
@@ -142,7 +141,7 @@
   });
 
   // ---- interactive layer: extra data pulses drawn over the render, along the same cable paths ----
-  const stage = document.getElementById("stage"), cv = document.getElementById("fx"), ctx = cv.getContext("2d");
+  const cv = document.getElementById("fx"), ctx = cv.getContext("2d");
   const SRC_W = 1920, SRC_H = 1080; // render size; overlay.json is 0..1 of this frame
   let data = null, view = { s: 1, x: 0, y: 0 }, dpr = 1;
   const pulses = [], rings = [];
@@ -240,9 +239,6 @@
 
     let lastHover = 0;
     addEventListener("pointermove", e => {
-      // slow parallax: the scene leans toward the pointer
-      const nx = e.clientX / innerWidth - 0.5, ny = e.clientY / innerHeight - 0.5;
-      stage.style.transform = `translate(${-nx * 14}px, ${-ny * 10}px) scale(1.012)`;
       const n = nearest(e.clientX, e.clientY);
       cv.classList.toggle("on-map", n.dist < 60);
       if (n.dist < 40 && performance.now() - lastHover > 260) { send(n.path, 0, 1); lastHover = performance.now(); }
